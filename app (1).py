@@ -5,10 +5,20 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+import os
+from openai import OpenAI
+import streamlit as st
 
-# Initialize OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Set the environment variable explicitly for the current process
+os.environ["OPENAI_API_KEY"] = ""
 
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    st.error("OpenAI API key not found. Please set OPENAI_API_KEY.")
+    st.stop()
+
+client = OpenAI(api_key=api_key)
 SYSTEM_PROMPT = """You are a friendly and intelligent AI assistant designed to help users with a wide variety of tasks and questions.
 
 CORE IDENTITY:
